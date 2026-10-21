@@ -65,7 +65,7 @@ cp .env.local.example .env.local
 | `NEXT_PUBLIC_STELLAR_NETWORK_PASSPHRASE` | Stellar network passphrase | `Test SDF Network ; September 2015` |
 | `NEXT_PUBLIC_HORIZON_URL` | Stellar Horizon node | `https://horizon-testnet.stellar.org` |
 | `NEXT_PUBLIC_SOROBAN_RPC_URL` | Soroban RPC endpoint | `https://soroban-testnet.stellar.org` |
-| `NEXT_PUBLIC_INVOICE_REGISTRY_CONTRACT_ID` | Soroban Registry Contract | `CA...` |
+| `NEXT_PUBLIC_INVOICE_REGISTRY_CONTRACT_ID` | Soroban Registry Contract | `CCG6V5QEJZ2QI7EXIRVQXCHUIFUROXUBMZPTSCRJHOO35CAQ2HZ6IJGC` |
 
 ---
 
