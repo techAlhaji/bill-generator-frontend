@@ -15,6 +15,7 @@ import {
   X,
   CreditCard,
   ShieldCheck,
+  BookOpen,
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -74,9 +75,9 @@ export const Navbar: React.FC = () => {
             </div>
           </Link>
 
-          {isAuthenticated && (
-            <nav className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => {
+          <nav className="hidden md:flex items-center gap-1">
+            {isAuthenticated &&
+              navLinks.map((link) => {
                 const Icon = link.icon;
                 const isActive = pathname === link.href || pathname?.startsWith(`${link.href}/`);
                 return (
@@ -94,11 +95,27 @@ export const Navbar: React.FC = () => {
                   </Link>
                 );
               })}
-            </nav>
-          )}
+            <a
+              href="https://techalhaji.github.io/bill-generator-frontend/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition-colors"
+            >
+              <BookOpen className="h-4 w-4 text-slate-400 group-hover:text-indigo-600" />
+              <span>Docs</span>
+            </a>
+          </nav>
         </div>
 
         <div className="flex items-center gap-3">
+          <a
+            href="https://techalhaji.github.io/bill-generator-frontend/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="md:hidden flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-indigo-600 px-2 py-1 rounded-md"
+          >
+            Docs
+          </a>
           <span className="hidden sm:inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 ring-1 ring-inset ring-slate-200">
             Stellar Testnet
           </span>
@@ -175,6 +192,16 @@ export const Navbar: React.FC = () => {
               </Link>
             );
           })}
+          <a
+            href="https://techalhaji.github.io/bill-generator-frontend/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-indigo-600"
+          >
+            <BookOpen className="h-5 w-5 text-slate-400" />
+            <span>Docs</span>
+          </a>
           <div className="pt-2 border-t border-slate-100 mt-2">
             <Link
               href="/invoices/new"

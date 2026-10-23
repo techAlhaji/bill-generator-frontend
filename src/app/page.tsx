@@ -254,6 +254,14 @@ export default function LandingPage() {
             <Link href="/register" className="hover:text-slate-900 transition-colors">
               Register Merchant
             </Link>
+            <a
+              href="https://techalhaji.github.io/bill-generator-frontend/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-indigo-600 font-medium transition-colors"
+            >
+              Docs
+            </a>
           </div>
         </div>
       </footer>
