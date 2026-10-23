@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StellarBills — Unified Ecosystem Documentation | Soroban Protocol 22</title>
+  <meta name="description" content="Comprehensive unified documentation portal for StellarBills: Soroban Smart Contracts, Fastify Backend API, and Next.js Frontend for commercial invoicing on Stellar.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-nav">
+    <div class="brand-wrapper">
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+      <img src="assets/logo.svg" alt="StellarBills" class="brand-logo">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="brand-text">StellarBills</span>
+        <span class="version-pill">Protocol 22</span>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <button class="search-trigger" id="searchTrigger">
+        <span style="display: flex; align-items: center; gap: 8px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Quick search documentation...
+        </span>
+        <span class="kbd-shortcut">Ctrl K</span>
+      </button>
+    </div>
+
+    <div class="header-actions">
+      <div class="repo-badge-links">
+        <a href="https://github.com/techAlhaji/bill-generator-contracts" target="_blank" rel="noopener" class="repo-link">
+          <span>📜</span> Contracts
+        </a>
+        <a href="https://github.com/techAlhaji/bill-generator-backend" target="_blank" rel="noopener" class="repo-link">
+          <span>⚡</span> Backend
+        </a>
+        <a href="https://github.com/techAlhaji/bill-generator-frontend" target="_blank" rel="noopener" class="repo-link">
+          <span>💻</span> Frontend
+        </a>
+      </div>
+      <button class="theme-toggle-btn" id="themeToggle" title="Toggle color theme" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+
+  <!-- Search Modal -->
+  <div class="search-modal-backdrop" id="searchModalBackdrop">
+    <div class="search-modal">
+      <div class="search-input-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" class="search-modal-input" id="searchModalInput" placeholder="Search architecture, endpoints, smart contracts..." autocomplete="off">
+        <span class="kbd-shortcut">ESC</span>
+      </div>
+      <div class="search-results-list" id="searchResults"></div>
+    </div>
+  </div>
+
+  <!-- App Layout -->
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="nav-section">
+        <div class="nav-heading">Ecosystem Overview</div>
+        <ul class="nav-list">
+          <li class="nav-item active"><a href="#overview"><span>🚀</span> Introduction & Vision</a></li>
+          <li class="nav-item"><a href="#architecture"><span>🏛️</span> System Topology</a></li>
+          <li class="nav-item"><a href="#zero-trust"><span>🔒</span> Zero-Trust Settlement</a></li>
+          <li class="nav-item"><a href="#math-model"><span>🔢</span> Zero-Float Math</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-heading">1. Smart Contracts</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#contracts-overview"><span>📜</span> Soroban Architecture</a></li>
+          <li class="nav-item"><a href="#contracts-deployment"><span>🌐</span> Testnet Deployment</a></li>
+          <li class="nav-item"><a href="#contracts-methods"><span>⚙️</span> Registry Methods</a></li>
+          <li class="nav-item"><a href="#contracts-errors"><span>⚠️</span> Error Matrix</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-heading">2. Backend REST API</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#backend-overview"><span>⚡</span> Fastify Architecture</a></li>
+          <li class="nav-item"><a href="#backend-auth"><span>🔑</span> Auth (JWT & SEP-10)</a></li>
+          <li class="nav-item"><a href="#backend-api"><span>🧭</span> Interactive API Explorer</a></li>
+          <li class="nav-item"><a href="#backend-verification"><span>🔍</span> Verification Engine</a></li>
+          <li class="nav-item"><a href="#backend-disaster"><span>🛡️</span> Backup & Recovery</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-heading">3. Frontend App</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#frontend-overview"><span>💻</span> Next.js 15 UI</a></li>
+          <li class="nav-item"><a href="#frontend-pay"><span>💳</span> Public Pay Portal</a></li>
+          <li class="nav-item"><a href="#frontend-wallets"><span>👛</span> Stellar Wallets Kit</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-heading">4. Cross-Repo Integration</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#cross-setup"><span>🛠️</span> Multi-Repo Dev Setup</a></li>
+          <li class="nav-item"><a href="#cross-env"><span>📄</span> Environment Matrix</a></li>
+          <li class="nav-item"><a href="#cross-e2e"><span>🔄</span> E2E Payment Flow</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Content Area -->
+    <main class="content-area">
+      
+      <!-- Hero Banner -->
+      <section class="doc-hero" id="overview">
+        <div class="hero-glow"></div>
+        <div class="hero-eyebrow">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
+          Stellar Testnet Protocol 22 Active
+        </div>
+        <h1 class="hero-title">StellarBills <span>Unified Documentation</span></h1>
+        <p class="hero-lead">
+          Production-grade commercial invoicing, cryptographic payment verification, and on-chain commitment anchor for the Stellar blockchain ecosystem. All three repositories unified in one comprehensive developer portal.
+        </p>
+
+        <!-- Quick 3-Repo Hub Cards -->
+        <div class="repo-card-grid">
+          <a href="#contracts-overview" class="repo-card repo-contracts">
+            <div class="repo-card-header">
+              <div class="repo-icon-wrap">📜</div>
+              <span class="tag-badge">Rust / Soroban</span>
+            </div>
+            <div class="repo-card-title">bill-generator-contracts</div>
+            <div class="repo-card-desc">Protocol 22 Soroban invoice registry, privacy-preserving commitment hashes, and atomic on-chain settlement.</div>
+            <div class="repo-card-footer">
+              <span class="tag-badge">v22.0.0 SDK</span>
+              <span class="tag-badge">SAC Compatible</span>
+            </div>
+          </a>
+
+          <a href="#backend-overview" class="repo-card repo-backend">
+            <div class="repo-card-header">
+              <div class="repo-icon-wrap">⚡</div>
+              <span class="tag-badge">Node.js / Fastify</span>
+            </div>
+            <div class="repo-card-title">bill-generator-backend</div>
+            <div class="repo-card-desc">High-throughput REST API, hybrid Horizon & Soroban verification engine, PostgreSQL/Prisma, vector PDF generation.</div>
+            <div class="repo-card-footer">
+              <span class="tag-badge">OpenAPI 3.0</span>
+              <span class="tag-badge">RFC 8785 Hashing</span>
+            </div>
+          </a>
+
+          <a href="#frontend-overview" class="repo-card repo-frontend">
+            <div class="repo-card-header">
+              <div class="repo-icon-wrap">💻</div>
+              <span class="tag-badge">Next.js 15 / React 19</span>
+            </div>
+            <div class="repo-card-title">bill-generator-frontend</div>
+            <div class="repo-card-desc">Merchant dashboard, dynamic invoice authoring wizard, zero-auth public capability payment portal, and wallet modal.</div>
+            <div class="repo-card-footer">
+              <span class="tag-badge">Tailwind CSS</span>
+              <span class="tag-badge">Freighter API</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- System Architecture & Topology -->
+      <section class="doc-section" id="architecture">
+        <div class="section-header">
+          <div class="section-tag">System Architecture</div>
+          <h2 class="section-title">Multi-Repository System Topology</h2>
+          <p class="section-desc">The workspace strictly maintains three decoupled repositories with independent lifecycles, test suites, and deployment pipelines.</p>
+        </div>
+
+        <div class="info-card accent">
+          <h4>Independent Repository Workspace Invariant</h4>
+          <p>The root directory remains an uninitialized non-git container workspace to preserve clean commit histories and individual GitHub Actions CI/CD pipelines across the three domain modules.</p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>🖥️ Presentation Layer</h4>
+            <p><strong>`bill-generator-frontend`</strong> provides the responsive merchant portal, CRM client index, real-time metrics, printable CSS invoices, and public capability URLs (`/pay/[token]`).</p>
+          </div>
+          <div class="feature-card">
+            <h4>⚙️ Execution & Verification Layer</h4>
+            <p><strong>`bill-generator-backend`</strong> manages authentication (JWT + SEP-10), ACID invoice state persistence, vector PDF compilation, and independent Horizon / RPC transaction verification.</p>
+          </div>
+          <div class="feature-card">
+            <h4>⛓️ On-Chain Settlement Anchor</h4>
+            <p><strong>`bill-generator-contracts`</strong> registers 32-byte immutable SHA-256 digests of canonical invoices, coordinates SEP-41 token settlements, and records reconciled Classic payments.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Zero-Trust Settlement -->
+      <section class="doc-section" id="zero-trust">
+        <div class="section-header">
+          <div class="section-tag">Security Architecture</div>
+          <h2 class="section-title">Zero-Trust Payment Settlement</h2>
+          <p class="section-desc">Client frontend environments are treated as untrusted runtime contexts. Invoices never transition to PAID based on UI signals.</p>
+        </div>
+
+        <div class="info-card">
+          <ul style="padding-left: 20px; line-height: 1.8;">
+            <li><strong>Horizon Transaction Inspection:</strong> For Stellar Classic payments, backend inspects the ledger transaction, verifies successful status, checks destination address, verifies exact asset code & issuer, and enforces strict matching with the unique invoice memo string.</li>
+            <li><strong>Soroban RPC Event Verification:</strong> For contract payments, the backend parses the contract execution results via `getTransaction`, confirming invocation of `pay_invoice` on the `InvoiceRegistry` and checking the canonical 32-byte `invoice_id`.</li>
+            <li><strong>Replay Attack Prevention:</strong> All verified transaction hashes are written to the PostgreSQL `payments` table under a strict database unique constraint, preventing double-spending or hash re-use.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Math Model -->
+      <section class="doc-section" id="math-model">
+        <div class="section-header">
+          <div class="section-tag">Financial Reliability</div>
+          <h2 class="section-title">Zero-Float Integer Arithmetic</h2>
+          <p class="section-desc">Eliminating IEEE 754 floating-point inaccuracies through standardized fixed-point scaling.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Domain Property</th>
+                <th>Standard Representation</th>
+                <th>Storage Scale & Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Line Item Quantities</strong></td>
+                <td>Integer scaled by factor $10^4$</td>
+                <td>`2.5000` hours $\to$ `25000`</td>
+              </tr>
+              <tr>
+                <td><strong>Token & Asset Prices</strong></td>
+                <td>Minor Units (Stroops / Cents)</td>
+                <td>`10.50` XLM $\to$ `105,000,000` stroops</td>
+              </tr>
+              <tr>
+                <td><strong>Tax & Discount Rates</strong></td>
+                <td>Basis points (bps, $1\% = 100\text{ bps}$)</td>
+                <td>`7.5%` Tax $\to$ `750` bps</td>
+              </tr>
+              <tr>
+                <td><strong>Invoice Commitments</strong></td>
+                <td>Canonical RFC 8785 SHA-256 Digest</td>
+                <td>Deterministic 32-byte hex hash</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SMART CONTRACTS -->
+      <section class="doc-section" id="contracts-overview">
+        <div class="section-header">
+          <div class="section-tag">Repository: bill-generator-contracts</div>
+          <h2 class="section-title">Soroban Smart Contract Architecture</h2>
+          <p class="section-desc">The `InvoiceRegistry` contract coordinates proof-of-issuance and non-custodial settlements on Stellar Protocol 22.</p>
+        </div>
+
+        <div class="info-card accent" id="contracts-deployment">
+          <h4>Active Testnet Contract Deployment</h4>
+          <p style="margin-top: 8px;">
+            <strong>Contract ID:</strong> 
+            <a href="https://stellar.expert/explorer/testnet/contract/CCG6V5QEJZ2QI7EXIRVQXCHUIFUROXUBMZPTSCRJHOO35CAQ2HZ6IJGC" target="_blank" rel="noopener" style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.9rem;">
+              CCG6V5QEJZ2QI7EXIRVQXCHUIFUROXUBMZPTSCRJHOO35CAQ2HZ6IJGC
+            </a>
+          </p>
+          <p style="margin-top: 4px; font-size: 0.85rem; color: var(--text-secondary);">
+            Admin Account: <code style="color: var(--text-secondary);">GCF7FGZJ6LVPAWFNANXZH7ANA42G5JII5F2UXXAL3WHQ26ZFXYTE73JM</code>
+          </p>
+        </div>
+
+        <!-- Contract Data Structure -->
+        <h3 style="margin: 28px 0 12px; font-size: 1.25rem;">Storage Data Models</h3>
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-title">Rust (contracts/invoice_registry/src/types.rs)</span>
+            <button class="copy-btn" data-target="code-rust-types">Copy</button>
+          </div>
+          <pre><code id="code-rust-types">#[contracttype]
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct InvoiceRecord {
+    pub issuer: Address,          // Merchant receiving address
+    pub amount: i128,             // Amount in token base minor units
+    pub token: Address,           // Token contract address (or SAC address)
+    pub content_hash: BytesN<32>, // Canonical SHA-256 hash of invoice contents
+    pub status: InvoiceStatus,    // Unpaid (0), Paid (1), Cancelled (2)
+    pub payment_ref: BytesN<32>,  // Transaction hash or payment receipt
+    pub settled_at: u64,          // Ledger timestamp of settlement
+}
+
+#[contracttype]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[repr(u32)]
+pub enum InvoiceStatus {
+    Unpaid = 0,
+    Paid = 1,
+    Cancelled = 2,
+}</code></pre>
+        </div>
+
+        <!-- Contract Methods -->
+        <div id="contracts-methods">
+          <h3 style="margin: 28px 0 12px; font-size: 1.25rem;">Contract Public Interface</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Method Signature</th>
+                  <th>Authorization</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>initialize(admin: Address)</code></td>
+                  <td>System Admin</td>
+                  <td>Initializes contract state and assigns the administrative address. Emits <code>initialized</code> event.</td>
+                </tr>
+                <tr>
+                  <td><code>register_invoice(issuer, invoice_id, amount, token, content_hash)</code></td>
+                  <td><code>issuer.require_auth()</code></td>
+                  <td>Anchors a new invoice commitment on-chain. Emits <code>invoice_registered</code> event.</td>
+                </tr>
+                <tr>
+                  <td><code>pay_invoice(payer, invoice_id)</code></td>
+                  <td><code>payer.require_auth()</code></td>
+                  <td>Transfers SEP-41 token atomically from payer to issuer and sets status to <code>Paid</code>. Emits <code>invoice_paid</code> event.</td>
+                </tr>
+                <tr>
+                  <td><code>record_direct_settlement(issuer, invoice_id, tx_ref)</code></td>
+                  <td><code>issuer.require_auth()</code></td>
+                  <td>Reconciles an on-chain commitment with an off-chain/L1 Classic payment receipt.</td>
+                </tr>
+                <tr>
+                  <td><code>get_invoice(invoice_id)</code></td>
+                  <td>Public Read</td>
+                  <td>Returns <code>Option&lt;InvoiceRecord&gt;</code> for the given 32-byte identifier.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Contract Errors -->
+        <div id="contracts-errors">
+          <h3 style="margin: 28px 0 12px; font-size: 1.25rem;">Contract Error Matrix</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Error Code</th>
+                  <th>Value</th>
+                  <th>Condition</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>AlreadyInitialized</code></td><td>1</td><td>Contract was already initialized.</td></tr>
+                <tr><td><code>NotInitialized</code></td><td>2</td><td>Admin operation invoked before initialization.</td></tr>
+                <tr><td><code>Unauthorized</code></td><td>3</td><td>Caller does not match authorized address.</td></tr>
+                <tr><td><code>InvoiceAlreadyExists</code></td><td>4</td><td>An invoice with this <code>invoice_id</code> already exists.</td></tr>
+                <tr><td><code>InvoiceNotFound</code></td><td>5</td><td>No invoice matches the provided <code>invoice_id</code>.</td></tr>
+                <tr><td><code>AlreadyPaid</code></td><td>6</td><td>Attempted to settle an already paid invoice.</td></tr>
+                <tr><td><code>AlreadyCancelled</code></td><td>7</td><td>Attempted action on a cancelled invoice.</td></tr>
+                <tr><td><code>InvalidAmount</code></td><td>8</td><td>Specified amount is non-positive ($amount \le 0$).</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- BACKEND REST API -->
+      <section class="doc-section" id="backend-overview">
+        <div class="section-header">
+          <div class="section-tag">Repository: bill-generator-backend</div>
+          <h2 class="section-title">Backend REST Engine & Verification Pipeline</h2>
+          <p class="section-desc">Production-grade Fastify TypeScript backend with Prisma ORM, SEP-10 challenge authentication, and OpenAPI 3.0 specification.</p>
+        </div>
+
+        <div class="feature-grid" id="backend-auth">
+          <div class="feature-card">
+            <h4>🔐 Dual Authentication Mode</h4>
+            <p>Supports both conventional JWT credentials (email/password) and Web3 non-custodial SEP-10 wallet challenge-response signing for frictionless merchant access.</p>
+          </div>
+          <div class="feature-card">
+            <h4>📄 Vector PDF Invoicing Engine</h4>
+            <p>Server-side streaming PDF generation using PDFKit, rendering print-ready commercial invoices with embedded Stellar payment QR codes.</p>
+          </div>
+          <div class="feature-card">
+            <h4>🗄️ PostgreSQL ACID Guarantees</h4>
+            <p>Row-level serializable locks prevent invoice duplicate reconciliation. Financial balances stored in native <code>BigInt</code> integer stroops.</p>
+          </div>
+        </div>
+
+        <!-- Interactive API Explorer -->
+        <div class="api-explorer" id="backend-api">
+          <div class="api-filter-bar">
+            <div class="api-filter-tabs">
+              <button class="api-tab-btn active" data-tag="ALL">All Endpoints</button>
+              <button class="api-tab-btn" data-tag="Auth">Auth</button>
+              <button class="api-tab-btn" data-tag="Clients">Clients</button>
+              <button class="api-tab-btn" data-tag="Invoices">Invoices</button>
+              <button class="api-tab-btn" data-tag="Public">Public Pay</button>
+            </div>
+            <input type="text" class="api-search-input" id="apiSearchInput" placeholder="Filter endpoints...">
+          </div>
+
+          <div class="api-endpoint-list">
+            <!-- POST /api/v1/auth/register -->
+            <div class="endpoint-row" data-tag="Auth" data-method="POST" data-path="/api/v1/auth/register" data-desc="Register merchant account">
+              <div class="endpoint-summary">
+                <div class="endpoint-meta">
+                  <span class="http-method http-post">POST</span>
+                  <span class="endpoint-path">/api/v1/auth/register</span>
+                  <span class="endpoint-desc">Merchant onboarding with email or Stellar address</span>
+                </div>
+              </div>
+              <div class="endpoint-details">
+                <p>Registers a new merchant organization and seeds the initial user session.</p>
+                <div class="code-box" style="margin-top: 12px;">
+                  <div class="code-header"><span class="code-title">Request Body</span></div>
+                  <pre><code>{
+  "email": "merchant@example.com",
+  "password": "SecurePassword123!",
+  "businessName": "Acme Global",
+  "stellarAddress": "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5"
+}</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <!-- POST /api/v1/auth/challenge -->
+            <div class="endpoint-row" data-tag="Auth" data-method="POST" data-path="/api/v1/auth/challenge" data-desc="Initiate SEP-10 wallet challenge">
+              <div class="endpoint-summary">
+                <div class="endpoint-meta">
+                  <span class="http-method http-post">POST</span>
+                  <span class="endpoint-path">/api/v1/auth/challenge</span>
+                  <span class="endpoint-desc">Generates Stellar SEP-10 challenge transaction envelope</span>
+                </div>
+              </div>
+              <div class="endpoint-details">
+                <p>Initiates a cryptographic challenge envelope for non-custodial wallet sign-in.</p>
+              </div>
+            </div>
+
+            <!-- GET /api/v1/invoices -->
+            <div class="endpoint-row" data-tag="Invoices" data-method="GET" data-path="/api/v1/invoices" data-desc="List merchant invoices">
+              <div class="endpoint-summary">
+                <div class="endpoint-meta">
+                  <span class="http-method http-get">GET</span>
+                  <span class="endpoint-path">/api/v1/invoices</span>
+                  <span class="endpoint-desc">Paginated list of merchant invoices with lifecycle filters</span>
+                </div>
+              </div>
+              <div class="endpoint-details">
+                <p>Query parameters: <code>page</code>, <code>limit</code>, <code>status</code> (DRAFT, ISSUED, PAID, OVERDUE, CANCELLED), <code>clientId</code>.</p>
+              </div>
+            </div>
+
+            <!-- POST /api/v1/invoices -->
+            <div class="endpoint-row" data-tag="Invoices" data-method="POST" data-path="/api/v1/invoices" data-desc="Create new draft invoice">
+              <div class="endpoint-summary">
+                <div class="endpoint-meta">
+                  <span class="http-method http-post">POST</span>
+                  <span class="endpoint-path">/api/v1/invoices</span>
+                  <span class="endpoint-desc">Creates a new draft commercial invoice with zero-float line items</span>
+                </div>
+              </div>
+              <div class="endpoint-details">
+                <p>Validates line items, integer quantities scaled by $10^4$, and basis-points tax computation.</p>
+              </div>
+            </div>
+
+            <!-- GET /api/v1/public/invoices/{token} -->
+            <div class="endpoint-row" data-tag="Public" data-method="GET" data-path="/api/v1/public/invoices/:token" data-desc="Public invoice capability view">
+              <div class="endpoint-summary">
+                <div class="endpoint-meta">
+                  <span class="http-method http-get">GET</span>
+                  <span class="endpoint-path">/api/v1/public/invoices/:token</span>
+                  <span class="endpoint-desc">Unauthenticated capability URL for payer review and checkout</span>
+                </div>
+              </div>
+              <div class="endpoint-details">
+                <p>Strips all internal merchant notes and database IDs. Returns payment destination, memo string, asset code, and amount in minor units.</p>
+              </div>
+            </div>
+
+            <!-- POST /api/v1/public/invoices/{token}/verify-payment -->
+            <div class="endpoint-row" data-tag="Public" data-method="POST" data-path="/api/v1/public/invoices/:token/verify-payment" data-desc="Cryptographic payment verification">
+              <div class="endpoint-summary">
+                <div class="endpoint-meta">
+                  <span class="http-method http-post">POST</span>
+                  <span class="endpoint-path">/api/v1/public/invoices/:token/verify-payment</span>
+                  <span class="endpoint-desc">Zero-trust cryptographic settlement verification on Horizon / Soroban</span>
+                </div>
+              </div>
+              <div class="endpoint-details">
+                <p>Verifies transaction hash directly with Horizon or Soroban RPC. Replay attacks are rejected with 409 Conflict.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verification Flow -->
+        <div id="backend-verification">
+          <h3 style="margin: 28px 0 12px; font-size: 1.25rem;">Payment Verification Engine Flow</h3>
+          <div class="code-box">
+            <div class="code-header">
+              <span class="code-title">Sequence (Horizon / Soroban RPC)</span>
+            </div>
+            <pre><code>1. Payer submits transaction hash to /api/v1/public/invoices/:token/verify-payment
+2. Idempotency Check: Verify txHash is not previously redeemed in PostgreSQL
+3. Row-Level Lock: Acquire SELECT FOR UPDATE on Invoice record
+4. Blockchain Verification:
+   • STELLAR_CLASSIC: Query Horizon /transactions/:hash & /operations
+     Verify recipient == merchantAddress, asset == invoiceAsset, memo == invoiceMemo
+   • SOROBAN_TOKEN: Query Soroban RPC getTransaction(:hash)
+     Verify contractId == InvoiceRegistry, event topics contain invoice_id
+5. State Transition:
+   • INSERT payments (status: CONFIRMED)
+   • UPDATE invoices (status: PAID, paidAt: now())
+   • INSERT audit_logs (action: PAYMENT_CONFIRMED)</code></pre>
+          </div>
+        </div>
+
+        <!-- Disaster Recovery -->
+        <div id="backend-disaster">
+          <h3 style="margin: 28px 0 12px; font-size: 1.25rem;">Backup, Migration & Recovery Procedures</h3>
+          <div class="info-card">
+            <p>Documented in detail in <code>bill-generator-backend/docs/BACKUP_MIGRATION_RECOVERY.md</code>:</p>
+            <ul style="padding-left: 20px; margin-top: 8px; line-height: 1.8;">
+              <li><strong>ACID PostgreSQL Snapshots:</strong> Nightly <code>pg_dump</code> with level 9 compression and AES-256 GPG encryption.</li>
+              <li><strong>Point-in-Time Recovery (PITR):</strong> Continuous WAL archiving for 7-day rollback tolerance.</li>
+              <li><strong>Declarative Migrations:</strong> Managed strictly via Prisma migrations with pre-flight dry runs and rollback runbooks.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- FRONTEND APP -->
+      <section class="doc-section" id="frontend-overview">
+        <div class="section-header">
+          <div class="section-tag">Repository: bill-generator-frontend</div>
+          <h2 class="section-title">Frontend Web Application & Checkout Portal</h2>
+          <p class="section-desc">Next.js 15 App Router fintech client with Tailwind CSS, Freighter wallet integration, and public capability payment portal.</p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>📊 Merchant Analytics Dashboard</h4>
+            <p>Real-time billing performance (total invoiced, settled volume, overdue invoices) and paginated invoice table with quick filters.</p>
+          </div>
+          <div class="feature-card" id="frontend-pay">
+            <h4>🔗 Secure Public Pay Route (`/pay/[token]`)</h4>
+            <p>Zero-auth capability URLs allowing invoice recipients to view bill details, verify merchant credentials, and connect non-custodial wallets.</p>
+          </div>
+          <div class="feature-card" id="frontend-wallets">
+            <h4>👛 Freighter & Stellar Wallets Kit</h4>
+            <p>Seamless browser wallet integration checking testnet passphrase, pre-flight fee reserves, and transaction signing.</p>
+          </div>
+        </div>
+
+        <h3 style="margin: 28px 0 12px; font-size: 1.25rem;">Frontend Routes Structure</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Route Path</th>
+                <th>Access Level</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>/</code></td><td>Public</td><td>Marketing landing page and feature walkthrough.</td></tr>
+              <tr><td><code>/dashboard</code></td><td>Merchant Auth</td><td>Financial KPIs, invoices table, and quick actions.</td></tr>
+              <tr><td><code>/invoices/new</code></td><td>Merchant Auth</td><td>Interactive invoice creation wizard with live preview.</td></tr>
+              <tr><td><code>/clients</code></td><td>Merchant Auth</td><td>CRM directory for managing client metadata.</td></tr>
+              <tr><td><code>/pay/[token]</code></td><td>Public Capability</td><td>Payer portal with Freighter wallet checkout modal.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CROSS-REPO INTEGRATION -->
+      <section class="doc-section" id="cross-setup">
+        <div class="section-header">
+          <div class="section-tag">Integration Guide</div>
+          <h2 class="section-title">Local Development & Multi-Repo Orchestration</h2>
+          <p class="section-desc">Instructions for running all three repositories locally and validating cross-service communication.</p>
+        </div>
+
+        <div class="code-box">
+          <div class="code-header">
+            <span class="code-title">Terminal Setup Commands</span>
+            <button class="copy-btn" data-target="code-setup">Copy</button>
+          </div>
+          <pre><code id="code-setup"># 1. Smart Contracts (Build & Test)
+cd bill-generator-contracts
+cargo test
+
+# 2. Backend REST API (Start Server on :4000)
+cd ../bill-generator-backend
+npm install
+npm run dev
+
+# 3. Frontend Web Application (Start Next.js on :3000)
+cd ../bill-generator-frontend
+npm install
+npm run dev</code></pre>
+        </div>
+
+        <div id="cross-env">
+          <h3 style="margin: 28px 0 12px; font-size: 1.25rem;">Unified Environment Configuration Matrix</h3>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Target Repo</th>
+                  <th>Config File</th>
+                  <th>Key Parameters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>bill-generator-backend</code></td>
+                  <td><code>.env</code></td>
+                  <td><code>DATABASE_URL</code>, <code>JWT_SECRET</code>, <code>STELLAR_NETWORK_PASSPHRASE</code>, <code>HORIZON_URL</code>, <code>SOROBAN_RPC_URL</code>, <code>INVOICE_REGISTRY_CONTRACT_ID</code></td>
+                </tr>
+                <tr>
+                  <td><code>bill-generator-frontend</code></td>
+                  <td><code>.env.local</code></td>
+                  <td><code>NEXT_PUBLIC_API_URL</code>, <code>NEXT_PUBLIC_STELLAR_NETWORK</code>, <code>NEXT_PUBLIC_INVOICE_REGISTRY_CONTRACT_ID</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="cross-e2e">
+          <h3 style="margin: 28px 0 12px; font-size: 1.25rem;">End-to-End Payment Flow Walkthrough</h3>
+          <div class="info-card accent">
+            <ol style="padding-left: 20px; line-height: 2;">
+              <li><strong>Merchant Creates Invoice:</strong> In frontend wizard, merchant enters line items $\to$ backend stores draft with canonical RFC 8785 JSON hash.</li>
+              <li><strong>Issuance & Commitment Anchor:</strong> Merchant issues invoice $\to$ backend generates capability token $\to$ anchors 32-byte <code>content_hash</code> on Soroban <code>InvoiceRegistry</code>.</li>
+              <li><strong>Payer Receives Capability Link:</strong> Payer navigates to <code>/pay/[token]</code>, connects Freighter wallet.</li>
+              <li><strong>Payment Dispatch:</strong> Payer submits transaction to Stellar Horizon (XLM / Classic asset) or executes <code>pay_invoice</code> on Soroban.</li>
+              <li><strong>Cryptographic Settlement:</strong> Backend independently verifies ledger finality, locks invoice state, records payment receipt in PostgreSQL, and updates on-chain registry.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div style="max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <img src="assets/logo.svg" alt="StellarBills" style="width: 24px; height: 24px;">
+        <strong>StellarBills Platform Documentation</strong>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">
+        Engineered for the Stellar Blockchain Ecosystem. Maintained by <a href="https://github.com/techAlhaji" target="_blank" rel="noopener" style="color: var(--accent-cyan); text-decoration: none;">Ademola (@techAlhaji)</a>.
+      </p>
+      <div style="display: flex; gap: 16px; margin-top: 8px;">
+        <a href="https://github.com/techAlhaji/bill-generator-contracts" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none;">Contracts Repo</a>
+        <span style="color: var(--border-subtle);">&bull;</span>
+        <a href="https://github.com/techAlhaji/bill-generator-backend" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none;">Backend Repo</a>
+        <span style="color: var(--border-subtle);">&bull;</span>
+        <a href="https://github.com/techAlhaji/bill-generator-frontend" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none;">Frontend Repo</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
