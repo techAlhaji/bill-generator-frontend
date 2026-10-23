@@ -17,10 +17,15 @@
   <img src="https://img.shields.io/badge/TypeScript-5.7-blue.svg" alt="TypeScript 5.7" />
   <img src="https://img.shields.io/badge/Tailwind%20CSS-3.4-38B2AC.svg" alt="Tailwind CSS 3.4" />
   <img src="https://img.shields.io/badge/Stellar%20SDK-v13-blueviolet.svg" alt="Stellar SDK v13" />
+  <a href="https://techalhaji.github.io/bill-generator-frontend/">
+    <img src="https://img.shields.io/badge/Docs-StellarBills%20Portal-00E5FF?style=flat&logo=gitbook&logoColor=white" alt="Unified Documentation Portal" />
+  </a>
   <a href="./LICENSE">
     <img src="https://img.shields.io/badge/License-Apache%202.0-green.svg" alt="License" />
   </a>
 </p>
+
+> 📖 **Live Documentation Portal:** Explore the unified documentation for all three repositories (Smart Contracts, Backend API, and Frontend App) at **[https://techalhaji.github.io/bill-generator-frontend/](https://techalhaji.github.io/bill-generator-frontend/)**.
 
 ---
 
